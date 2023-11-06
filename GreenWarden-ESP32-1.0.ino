@@ -24,7 +24,7 @@ const char* mqtt_server = "54.160.155.170";
 const char* mqtt_username = "Embarcado"; // replace with your Credential
 const char* mqtt_password = "Embarcado2023";
 const int mqtt_port = 1883;
-const char* cpf;
+String cpf;
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -78,7 +78,7 @@ emyPxgcYxn/eR44/KJ4EBs+lVDR3veyJm+kXQ99b21/+jh5Xos1AnX5iItreGCc=
 #define sensorNutrientes 27
 #define sensorHumidadeSolo 39
 #define sensorLuminosidade 32
-#define sensorPH 33
+#define sensorPH 35
 #define VERIFICA 0
 #define LIGA_BOMBA 1
 #define ESPERA_TEMPO 2
@@ -137,7 +137,8 @@ void setup() {
 
 void setup_wifi() {
   WiFiManager wm;
-  WiFiManagerParameter parameter("my_cpf", "Digite o CPF:","", 12);
+  wm.resetSettings();
+  WiFiManagerParameter parameter("my_cpf", "Digite o CPF:","Obrigatório", 12);
   wm.addParameter(&parameter);
   res = wm.autoConnect("GreenWarden"); // password protected ap
   cpf = parameter.getValue();
@@ -386,7 +387,7 @@ void publishBatteryLevel() {
   float vPow = 5.0;
   float r1 = 100000;
   float r2 = 10000;
-  float v = (analogRead(0) * vPow) / 1024.0;
+  float v = (analogRead(33) * vPow) / 1024.0;
   float v2 = v / (r2 / (r1 + r2));
   publishSensorData("BatteryLevel",v2);
 }
