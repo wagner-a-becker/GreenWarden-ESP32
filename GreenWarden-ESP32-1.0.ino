@@ -137,7 +137,7 @@ void setup() {
 
 void setup_wifi() {
   WiFiManager wm;
-  wm.resetSettings();
+  //wm.resetSettings();
   WiFiManagerParameter parameter("my_cpf", "Digite o CPF:","Obrigatório", 12);
   wm.addParameter(&parameter);
   res = wm.autoConnect("GreenWarden"); // password protected ap
@@ -150,25 +150,6 @@ void setup_wifi() {
     //if you get here you have connected to the WiFi    
     Serial.println("WiFi connected");
     }
- /*   
-  WiFi.mode(WIFI_STA); //Optional
-    WiFi.begin(ssid, password);
-    Serial.println("\nConnecting");
-    int timeout_counter = 0;
-
-    while(WiFi.status() != WL_CONNECTED){
-        Serial.print(".");
-        delay(200);
-        timeout_counter++;
-        if(timeout_counter >= CONNECTION_TIMEOUT*5){
-        ESP.restart();
-        }
-    }
-  Serial.println("");
-  Serial.println("WiFi connected");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
-  */
 }
 
 void callback(char* topic, byte* message, unsigned int length) {
