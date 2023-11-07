@@ -397,7 +397,7 @@ void stateAgua() {
       if (currentMillis - previousMillis >= 5000) {
         digitalWrite(bombaAgua, LOW); // Desliga a bomba
         Serial.println("Bomba Agua Desligada");
-        publishString("alert", "Bomba de Água Ligada");
+        publishString("alert", "Bomba de Água Desligada");
         previousMillis = currentMillis;
         state = ESPERA_TEMPO;
       }
