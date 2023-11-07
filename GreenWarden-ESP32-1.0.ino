@@ -366,7 +366,7 @@ void publishNutrientes() {
 
 void publishBatteryLevel() {
   float vPow = 5.0;
-  float r1 = 100000;
+  float r1 = 22000;
   float r2 = 10000;
   float v = (analogRead(33) * vPow) / 1024.0;
   float v2 = v / (r2 / (r1 + r2));
