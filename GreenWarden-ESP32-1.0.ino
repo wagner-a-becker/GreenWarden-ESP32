@@ -201,6 +201,7 @@ void reconnect() {
     // Attempt to connect
     if (client.connect(clientId.c_str(), mqtt_username, mqtt_password)) {
       Serial.println("connected");
+      publishString("alert", "Dispositivo Conectado");
 
       
       snprintf(connectTopic, sizeof(connectTopic), "%s/CONFIG/Connected", macAddress.c_str());
@@ -352,7 +353,7 @@ void publishAgua() {
   int agua = digitalRead(sensorAgua);  // Leitura da boia de água
 
   if (agua == LOW) { // Se o nível de água estiver baixo (LOW), publique
-    publishString("WaterLevel", "0");  
+    publishString("alert", "Nível de Água Baixo, por favor, adicione água ao reservatório");  
   }
 }
 
@@ -360,7 +361,7 @@ void publishNutrientes() {
   float nutrientes = digitalRead(sensorNutrientes);  // Leitura da boia de nutrientes
 
   if (nutrientes == LOW) { // Se o nível de nutrientes estiver baixo (LOW), publique
-    publishString("NutrientLevel", "0");
+    publishString("alert", "Nível de Nutrientes Baixo, por favor, adicione nutrientes ao reservatório"); 
   }
 }
 
@@ -396,6 +397,7 @@ void stateAgua() {
       if (currentMillis - previousMillis >= 5000) {
         digitalWrite(bombaAgua, LOW); // Desliga a bomba
         Serial.println("Bomba Agua Desligada");
+        publishString("alert", "Bomba de Água Ligada");
         previousMillis = currentMillis;
         state = ESPERA_TEMPO;
       }
@@ -468,6 +470,7 @@ void stateNutrientes() {
 
     digitalWrite(bombaNutrientes, LOW);
     Serial.println("Bomba desativada");
+    publishString("alert", "Bomba de Nutrientes Desligada");
     isPumpActive = false;
   }
 }
