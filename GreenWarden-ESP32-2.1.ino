@@ -268,7 +268,7 @@ void publishString(const char* sensorName, char* value) {
     timeinfo.tm_hour, timeinfo.tm_min, timeinfo.tm_sec);
 
   char topic[100];
-  snprintf(topic, sizeof(topic), "/%s/%s/%s", sensorName, macAddress.c_str(), dataHora);
+  snprintf(topic, sizeof(topic), "%s/%s/%s", sensorName, macAddress.c_str(), dataHora);
   
   char data[50];
   snprintf(data, sizeof(data), "%s", value);
