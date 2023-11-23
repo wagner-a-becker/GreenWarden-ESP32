@@ -46,7 +46,7 @@ int value = 0;
 #define bombaAgua 13
 
 DHT dht(DHTPIN, DHTTYPE);
-const int oneWireBus = 2;
+const int oneWireBus = 4;
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 String macAddress;
@@ -345,7 +345,13 @@ void stateAgua() {
   unsigned long currentMillis = millis();
   // Leitura do sensor de umidade
   float analogHumidity = analogRead(sensorHumidadeSolo);
-  float valueHumidity = ( 100 - ( (sensor_analog/4095.00) * 100 ) );
+  float valueHumidity = 100 - ((analogHumidity - 1800.0) / (4095.0 - 1800.0)) * 100;
+   // Calcula a umidade baseado na nova relação
+  if (valueHumidity < 0) {
+    valueHumidity = 0;
+  } else if (_valueHumidity > 100) {
+    valueHumidity = 100;
+  }
 
   switch (state) {
     case VERIFICA:
@@ -470,9 +476,9 @@ void loop() {
       Serial.print("Not Connected to NTP");
       return;
     }
-    int min = timecalc.tm_sec;
+    int min = timecalc.tm_min;
     static bool executedThisMinute = false;
-    unsigned long currentDay = timecalc.tm_sec;
+    unsigned long currentDay = timecalc.tm_min;
 
     if (min % 2 == 0 && !executedThisMinute) {
       executedThisMinute = true;
